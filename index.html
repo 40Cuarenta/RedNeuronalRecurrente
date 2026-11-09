@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redes Neuronales Recurrentes | Flexibilidad de Entrada y Salida</title>
+  <!-- Tipografía: Newsreader (Serif) e Inter (Sans-serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Encabezado Principal -->
+    <header class="main-header">
+      <div class="header-badge">Arquitecturas Recurrentes</div>
+      <h1 class="main-title">Redes Neuronales Recurrentes</h1>
+      <p class="main-subtitle">Flexibilidad de entrada y salida</p>
+    </header>
+
+    <!-- Tres Tarjetas Seleccionables (SOLO estas tres y en este orden exacto) -->
+    <section class="cards-grid" aria-label="Tipos de arquitecturas RNN">
+      <!-- 1. One-to-Many -->
+      <button type="button" class="type-card active" id="card-one-to-many" data-type="one-to-many" aria-pressed="true">
+        <div class="card-pill">1 → N</div>
+        <h2 class="card-title">One-to-Many</h2>
+        <p class="card-desc">Una entrada genera una secuencia completa de salidas.</p>
+        <div class="card-example">Ejemplo: Image Captioning</div>
+      </button>
+
+      <!-- 2. Many-to-One -->
+      <button type="button" class="type-card" id="card-many-to-one" data-type="many-to-one" aria-pressed="false">
+        <div class="card-pill">N → 1</div>
+        <h2 class="card-title">Many-to-One</h2>
+        <p class="card-desc">Una secuencia genera un único resultado final.</p>
+        <div class="card-example">Ejemplo: Análisis de sentimiento</div>
+      </button>
+
+      <!-- 3. Many-to-Many desfasada -->
+      <button type="button" class="type-card" id="card-many-to-many" data-type="many-to-many" aria-pressed="false">
+        <div class="card-pill">N → M</div>
+        <h2 class="card-title">Many-to-Many desfasada</h2>
+        <p class="card-desc">Procesa una secuencia y genera otra de distinta longitud.</p>
+        <div class="card-example">Ejemplo: Traducción con arquitectura Encoder-Decoder</div>
+      </button>
+    </section>
+
+    <!-- Panel de Visualización Principal -->
+    <main class="stage-container" id="stage-panel">
+      <!-- Cabecera del Panel: Información del tipo seleccionado y Selector de Ejemplos -->
+      <div class="stage-header">
+        <div class="stage-info">
+          <div class="stage-meta">
+            <span class="stage-tag" id="stage-tag">Arquitectura 1 → N</span>
+            <span class="stage-app" id="stage-app">Image Captioning</span>
+          </div>
+          <p class="stage-desc" id="stage-desc">Cargando descripción...</p>
+        </div>
+
+        <!-- Selector interactivo de ejemplos -->
+        <div class="example-picker-wrapper">
+          <label class="picker-label" id="picker-label">Seleccionar ejemplo:</label>
+          <div class="example-pills" id="example-pills" role="radiogroup">
+            <!-- Rellenado dinámicamente según la tarjeta activa -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Controles y Selector de Vista Enrollada/Desenrollada -->
+      <div class="controls-bar">
+        <!-- Interruptor "Enrollada / Desenrollada" -->
+        <div class="view-toggle-wrapper">
+          <span class="toggle-caption">Vista:</span>
+          <div class="segmented-control" role="tablist">
+            <button type="button" class="segment-btn active" id="btn-view-rolled" role="tab" aria-selected="true" title="Vista enrollada con bucle recurrente">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 4v4l3-2"/></svg>
+              <span>Enrollada</span>
+            </button>
+            <button type="button" class="segment-btn" id="btn-view-unrolled" role="tab" aria-selected="false" title="Vista desenrollada en el tiempo">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="5" height="12" rx="1"/><rect x="10" y="6" width="5" height="12" rx="1"/><rect x="18" y="6" width="5" height="12" rx="1"/><path d="M7 12h3M15 12h3"/></svg>
+              <span>Desenrollada</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Controles de Reproducción -->
+        <div class="playback-controls">
+          <button type="button" class="ctrl-btn" id="btn-reset" title="Reiniciar al paso 0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            <span>Reiniciar</span>
+          </button>
+          <button type="button" class="ctrl-btn" id="btn-prev" title="Paso anterior">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+            <span>Anterior</span>
+          </button>
+          <button type="button" class="ctrl-btn ctrl-btn-primary" id="btn-play-pause" title="Reproducir o pausar simulación">
+            <svg id="icon-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <svg id="icon-pause" class="hidden" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            <span id="play-text">Reproducir</span>
+          </button>
+          <button type="button" class="ctrl-btn" id="btn-next" title="Paso siguiente">
+            <span>Siguiente</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+          </button>
+        </div>
+
+        <!-- Velocidad de simulación y contador de paso -->
+        <div class="playback-speed-wrapper">
+          <span class="speed-label">Velocidad:</span>
+          <div class="speed-buttons">
+            <button type="button" class="speed-btn" data-speed="2200">0.5x</button>
+            <button type="button" class="speed-btn active" data-speed="1300">1x</button>
+            <button type="button" class="speed-btn" data-speed="700">2x</button>
+          </div>
+          <div class="step-pill" id="step-counter-pill">
+            Paso <strong id="step-curr">1</strong> de <span id="step-total">7</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cuadrícula Principal: Escenario SVG y Panel de Estado Interno -->
+      <div class="visualizer-grid">
+        <!-- Lienzo SVG -->
+        <div class="canvas-card">
+          <!-- Banner Informativo del Paso -->
+          <div class="canvas-banner" id="canvas-banner">
+            <span class="banner-step" id="banner-step-indicator">Paso t = 0</span>
+            <span class="banner-text" id="banner-step-text">Iniciando red recurrente...</span>
+          </div>
+
+          <!-- Contenedor con transición animada entre vistas -->
+          <div class="viewports-wrapper" id="viewports-wrapper">
+            <!-- VISTA ENROLLADA (Rolled) -->
+            <div class="view-pane view-rolled active" id="pane-rolled">
+              <svg id="svg-rolled" class="rnn-svg" viewBox="0 0 640 440" preserveAspectRatio="xMidYMid meet">
+                <!-- Dibujado por SVG en app.js -->
+              </svg>
+            </div>
+
+            <!-- VISTA DESENROLLADA (Unrolled) -->
+            <div class="view-pane view-unrolled" id="pane-unrolled">
+              <div class="unrolled-scroll-container" id="unrolled-scroll-container">
+                <svg id="svg-unrolled" class="rnn-svg" viewBox="0 0 960 440" preserveAspectRatio="xMidYMid meet">
+                  <!-- Dibujado por SVG en app.js -->
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Barra de navegación temporal de pasos (ticks) -->
+          <div class="timeline-bar-wrapper">
+            <div class="timeline-ticks" id="timeline-ticks" role="tablist" aria-label="Pasos temporales">
+              <!-- Botones de saltos a pasos -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel Lateral: Estado Interno -->
+        <aside class="state-card" aria-label="Panel de estado interno de la red">
+          <div class="state-card-header">
+            <div class="state-card-title-group">
+              <span class="state-icon">⚡</span>
+              <h3 class="state-card-title">Estado Interno</h3>
+            </div>
+            <div class="state-step-badge" id="side-t-badge">t = 0</div>
+          </div>
+
+          <div class="state-sections">
+            <!-- 1. Entrada actual x_t -->
+            <div class="state-block">
+              <div class="state-block-header">
+                <span class="state-term-label">Entrada actual (x<sub>t</sub>)</span>
+                <span class="state-type-badge" id="side-x-type">Token</span>
+              </div>
+              <div class="state-val-card" id="side-x-val">
+                <span class="x-highlight" id="side-x-text">—</span>
+                <span class="x-subtext" id="side-x-sub">—</span>
+              </div>
+            </div>
+
+            <!-- 2. Estado Oculto Anterior h_{t-1} -->
+            <div class="state-block">
+              <div class="state-block-header">
+                <span class="state-term-label">Memoria recurrente previa (h<sub>t-1</sub>)</span>
+                <span class="vector-dim">Vector [4]</span>
+              </div>
+              <div class="vector-display" id="side-h-prev-display">
+                <!-- 4 celdas con barras de intensidad -->
+              </div>
+            </div>
+
+            <!-- 3. Estado Oculto Actual h_t -->
+            <div class="state-block">
+              <div class="state-block-header">
+                <span class="state-term-label">Nuevo estado oculto (h<sub>t</sub>)</span>
+                <span class="vector-dim" id="side-h-curr-tag">tanh activada</span>
+              </div>
+              <div class="vector-display" id="side-h-curr-display">
+                <!-- 4 celdas con barras de intensidad -->
+              </div>
+              <!-- Medidor de carga semántica / polaridad para Many-to-One -->
+              <div class="sentiment-meter-wrapper hidden" id="side-sentiment-meter">
+                <div class="sentiment-meter-header">
+                  <span>Polaridad acumulada</span>
+                  <span id="sentiment-meter-val" style="font-weight:700;">Neutro</span>
+                </div>
+                <div class="sentiment-meter-track">
+                  <div class="sentiment-meter-center"></div>
+                  <div class="sentiment-meter-fill" id="sentiment-meter-fill"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Salida actual y_t -->
+            <div class="state-block" id="side-y-block">
+              <div class="state-block-header">
+                <span class="state-term-label">Salida emitida (y<sub>t</sub>)</span>
+                <span class="state-type-badge" id="side-y-status">Activa</span>
+              </div>
+              <div class="state-val-card output-card" id="side-y-val">
+                <span class="y-highlight" id="side-y-text">—</span>
+                <span class="y-subtext" id="side-y-confidence">—</span>
+              </div>
+            </div>
+
+            <!-- 5. Ecuación interactiva con término del paso actual resaltado -->
+            <div class="state-formula-block">
+              <div class="formula-title">Fórmula de Actualización</div>
+              <div class="formula-box" id="formula-display">
+                <span class="formula-term formula-target" id="term-ht">h<sub>t</sub></span>
+                <span class="formula-op">=</span>
+                <span class="formula-act">tanh</span>
+                <span class="formula-paren">(</span>
+                <span class="formula-term term-x" id="term-wxh" title="Entrada proyectada">W<sub>xh</sub>·x<sub>t</sub></span>
+                <span class="formula-op">+</span>
+                <span class="formula-term term-h" id="term-whh" title="Memoria recurrente previa">W<sub>hh</sub>·h<sub>t-1</sub></span>
+                <span class="formula-op">+</span>
+                <span class="formula-term term-b" id="term-b">b</span>
+                <span class="formula-paren">)</span>
+              </div>
+              <p class="formula-explanation" id="side-formula-note">
+                El estado h<sub>t</sub> combina la información del paso actual con la memoria acumulada para determinar la representación latente.
+              </p>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Pie del Escenario: Explicación Didáctica -->
+      <footer class="step-footer-card">
+        <div class="step-footer-icon">💡</div>
+        <div class="step-footer-content">
+          <h4 class="step-footer-title" id="footer-step-title">Explicación del paso</h4>
+          <p class="step-footer-desc" id="footer-step-desc">Detalles del flujo de información en este instante de tiempo.</p>
+        </div>
+      </footer>
+
+      <!-- Atajos de teclado para presentaciones y docencia -->
+      <div class="keyboard-hints">
+        <span>Atajos:</span>
+        <span><kbd class="kbd-badge">Espacio</kbd> Reproducir / Pausar</span>
+        <span><kbd class="kbd-badge">→</kbd> Paso Siguiente</span>
+        <span><kbd class="kbd-badge">←</kbd> Paso Anterior</span>
+        <span><kbd class="kbd-badge">Clic en celda</kbd> Salto directo</span>
+      </div>
+    </main>
+  </div>
+
+  <!-- Carga secuencial sin servidor -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
+
