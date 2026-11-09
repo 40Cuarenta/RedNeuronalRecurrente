@@ -328,7 +328,7 @@ const RNN_DATA = {
       {
         id: 'pos-movie',
         name: '"Me encantó esta película"',
-        label: 'Positivo 😊',
+        label: 'Positivo',
         sentimentType: 'positive',
         finalConfidence: '96.2%',
         steps: [
@@ -369,7 +369,7 @@ const RNN_DATA = {
             h_prev: [0.71, 0.64, 0.79, 0.55],
             h_curr: [0.89, 0.78, 0.94, 0.72],
             sentimentScore: 0.96,
-            y: 'Positivo 😊 (96.2%)',
+            y: 'Positivo  (96.2%)',
             isFinal: true,
             explanation: 'Fin de la secuencia. Con "película", el estado oculto h₃ contiene el resumen semántico total. La capa de salida emite la clasificación final: Positivo 😊 con 96.2% de confianza.'
           }
@@ -378,7 +378,7 @@ const RNN_DATA = {
       {
         id: 'pos-service',
         name: '"El servicio fue excelente y rápido"',
-        label: 'Positivo 😊',
+        label: 'Positivo ',
         sentimentType: 'positive',
         finalConfidence: '94.8%',
         steps: [
@@ -439,7 +439,7 @@ const RNN_DATA = {
             h_prev: [0.75, 0.68, 0.81, 0.64],
             h_curr: [0.86, 0.79, 0.92, 0.76],
             sentimentScore: 0.95,
-            y: 'Positivo 😊 (94.8%)',
+            y: 'Positivo  (94.8%)',
             isFinal: true,
             explanation: '"rápido" consolida la evaluación positiva. Como es la última palabra, se activa la salida global: Positivo 😊 (94.8%).'
           }
@@ -448,7 +448,7 @@ const RNN_DATA = {
       {
         id: 'neg-terrible',
         name: '"Fue una experiencia terrible"',
-        label: 'Negativo 😞',
+        label: 'Negativo ',
         sentimentType: 'negative',
         finalConfidence: '91.4%',
         steps: [
@@ -489,7 +489,7 @@ const RNN_DATA = {
             h_prev: [-0.15, -0.21, -0.12, 0.12],
             h_curr: [-0.85, -0.76, -0.92, -0.68],
             sentimentScore: -0.91,
-            y: 'Negativo 😞 (91.4%)',
+            y: 'Negativo  (91.4%)',
             isFinal: true,
             explanation: 'Palabra negativa contundente "terrible". El vector oculto se sumerge en valores fuertemente negativos y la salida final concluye: Negativo 😞 (91.4%).'
           }
@@ -498,7 +498,7 @@ const RNN_DATA = {
       {
         id: 'neg-product',
         name: '"No me gustó nada el producto"',
-        label: 'Negativo 😞',
+        label: 'Negativo ',
         sentimentType: 'negative',
         finalConfidence: '95.3%',
         steps: [
@@ -559,7 +559,7 @@ const RNN_DATA = {
             h_prev: [-0.83, -0.71, -0.86, -0.61],
             h_curr: [-0.91, -0.82, -0.95, -0.74],
             sentimentScore: -0.95,
-            y: 'Negativo 😞 (95.3%)',
+            y: 'Negativo  (95.3%)',
             isFinal: true,
             explanation: 'Último token. La red emite el veredicto definitivo: Negativo 😞 (95.3% de confianza).'
           }

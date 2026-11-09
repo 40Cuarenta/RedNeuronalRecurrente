@@ -659,7 +659,7 @@ function renderRolledSingleCell(svg, step, example) {
   g.appendChild(tBadge);
 
   // 2. Bucle recurrente curvo (h_{t-1} -> h_t)
-  const loopPathStr = `M ${cx + cellW/2} ${cyCell} C ${cx + cellW/2 + 80} ${cyCell - 10}, ${cx + cellW/2 + 80} ${cyCell - 80}, ${cx + 35} ${cyCell - cellH/2}`;
+  const loopPathStr = `M ${cx + cellW / 2} ${cyCell} C ${cx + cellW / 2 + 80} ${cyCell - 10}, ${cx + cellW / 2 + 80} ${cyCell - 80}, ${cx + 35} ${cyCell - cellH / 2}`;
   const loopPath = createSVGElement('path', {
     id: 'rolled-loop-path',
     d: loopPathStr,
@@ -671,7 +671,7 @@ function renderRolledSingleCell(svg, step, example) {
   g.appendChild(loopPath);
 
   const loopLabel = createSVGElement('text', {
-    x: cx + cellW/2 + 25,
+    x: cx + cellW / 2 + 25,
     y: cyCell - 50,
     'font-family': 'Newsreader, Georgia, serif',
     'font-size': '13',
@@ -684,7 +684,7 @@ function renderRolledSingleCell(svg, step, example) {
   // 3. Flecha Entrada -> Celda (x_t -> h_t)
   const inputWire = createSVGElement('path', {
     id: 'rolled-input-wire',
-    d: `M ${cx} ${cyInput - 24} L ${cx} ${cyCell + cellH/2}`,
+    d: `M ${cx} ${cyInput - 24} L ${cx} ${cyCell + cellH / 2}`,
     fill: 'none',
     stroke: '#5266EB',
     'stroke-width': '2.5',
@@ -696,7 +696,7 @@ function renderRolledSingleCell(svg, step, example) {
   const hasOutput = (step.y !== null && step.y !== '(Sin salida)');
   const outputWire = createSVGElement('path', {
     id: 'rolled-output-wire',
-    d: `M ${cx} ${cyCell - cellH/2} L ${cx} ${cyOutput + 24}`,
+    d: `M ${cx} ${cyCell - cellH / 2} L ${cx} ${cyOutput + 24}`,
     fill: 'none',
     stroke: hasOutput ? '#5266EB' : '#D1D5DB',
     'stroke-width': hasOutput ? '2.5' : '1.5',
@@ -753,9 +753,9 @@ function renderRolledSingleCell(svg, step, example) {
 
   const cellNode = createSVGElement('g', { transform: `translate(${cx}, ${cyCell})` });
   cellNode.innerHTML = `
-    <rect x="-${cellW/2}" y="-${cellH/2}" width="${cellW}" height="${cellH}" rx="14" fill="#FFFFFF" stroke="${cellColor}" stroke-width="2.5" filter="drop-shadow(0 2px 8px rgba(0,0,0,0.04))"/>
-    <rect x="-${cellW/2}" y="-${cellH/2}" width="${cellW}" height="26" rx="14" fill="${cellColor}" opacity="0.12"/>
-    <text x="0" y="-${cellH/2 - 17}" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="${cellColor}" letter-spacing="0.04em">
+    <rect x="-${cellW / 2}" y="-${cellH / 2}" width="${cellW}" height="${cellH}" rx="14" fill="#FFFFFF" stroke="${cellColor}" stroke-width="2.5" filter="drop-shadow(0 2px 8px rgba(0,0,0,0.04))"/>
+    <rect x="-${cellW / 2}" y="-${cellH / 2}" width="${cellW}" height="26" rx="14" fill="${cellColor}" opacity="0.12"/>
+    <text x="0" y="-${cellH / 2 - 17}" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="${cellColor}" letter-spacing="0.04em">
       CELDA RNN (ht)
     </text>
     <g transform="translate(-54, 2)">
@@ -853,9 +853,9 @@ function renderRolledEncoderDecoder(svg, step, example) {
   // 1. ZONA ENCODER
   const encCell = createSVGElement('g', { transform: `translate(${cxEnc}, ${cyCell})` });
   encCell.innerHTML = `
-    <rect x="-${cellW/2}" y="-${cellH/2}" width="${cellW}" height="${cellH}" rx="12" fill="#FFFFFF" stroke="${isEncPhase ? '#5266EB' : '#DDE0EA'}" stroke-width="${isEncPhase ? '2.5' : '1.5'}" ${isEncPhase ? 'filter="drop-shadow(0 2px 8px rgba(82,102,235,0.15))"' : ''}/>
-    <rect x="-${cellW/2}" y="-${cellH/2}" width="${cellW}" height="24" rx="12" fill="${isEncPhase ? '#EEF0FD' : '#F5F6F9'}"/>
-    <text x="0" y="-${cellH/2 - 16}" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="${isEncPhase ? '#5266EB' : '#6B7080'}">
+    <rect x="-${cellW / 2}" y="-${cellH / 2}" width="${cellW}" height="${cellH}" rx="12" fill="#FFFFFF" stroke="${isEncPhase ? '#5266EB' : '#DDE0EA'}" stroke-width="${isEncPhase ? '2.5' : '1.5'}" ${isEncPhase ? 'filter="drop-shadow(0 2px 8px rgba(82,102,235,0.15))"' : ''}/>
+    <rect x="-${cellW / 2}" y="-${cellH / 2}" width="${cellW}" height="24" rx="12" fill="${isEncPhase ? '#EEF0FD' : '#F5F6F9'}"/>
+    <text x="0" y="-${cellH / 2 - 16}" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="${isEncPhase ? '#5266EB' : '#6B7080'}">
       ENCODER (ht)
     </text>
     <text x="0" y="10" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="500" fill="#6B7080">
@@ -869,7 +869,7 @@ function renderRolledEncoderDecoder(svg, step, example) {
 
   const encLoop = createSVGElement('path', {
     id: 'enc-loop-path',
-    d: `M ${cxEnc + cellW/2} ${cyCell} C ${cxEnc + cellW/2 + 50} ${cyCell - 10}, ${cxEnc + cellW/2 + 50} ${cyCell - 65}, ${cxEnc + 25} ${cyCell - cellH/2}`,
+    d: `M ${cxEnc + cellW / 2} ${cyCell} C ${cxEnc + cellW / 2 + 50} ${cyCell - 10}, ${cxEnc + cellW / 2 + 50} ${cyCell - 65}, ${cxEnc + 25} ${cyCell - cellH / 2}`,
     fill: 'none',
     stroke: isEncPhase ? '#5266EB' : '#DDE0EA',
     'stroke-width': '2',
@@ -879,7 +879,7 @@ function renderRolledEncoderDecoder(svg, step, example) {
 
   const encInputWire = createSVGElement('path', {
     id: 'enc-input-wire',
-    d: `M ${cxEnc} ${cyInput - 22} L ${cxEnc} ${cyCell + cellH/2}`,
+    d: `M ${cxEnc} ${cyInput - 22} L ${cxEnc} ${cyCell + cellH / 2}`,
     fill: 'none',
     stroke: isEncPhase ? '#5266EB' : '#DDE0EA',
     'stroke-width': '2',
@@ -898,7 +898,7 @@ function renderRolledEncoderDecoder(svg, step, example) {
   // 2. PUENTE: VECTOR DE CONTEXTO c (Encoder -> Decoder)
   const contextBridge = createSVGElement('path', {
     id: 'rolled-context-bridge',
-    d: `M ${cxEnc + cellW/2} ${cyCell} L ${cxDec - cellW/2} ${cyCell}`,
+    d: `M ${cxEnc + cellW / 2} ${cyCell} L ${cxDec - cellW / 2} ${cyCell}`,
     fill: 'none',
     stroke: '#D97706',
     'stroke-width': step.isContextTransition ? '3' : '2',
@@ -907,7 +907,7 @@ function renderRolledEncoderDecoder(svg, step, example) {
   });
   g.appendChild(contextBridge);
 
-  const bridgeBadge = createSVGElement('g', { transform: `translate(${(cxEnc + cxDec)/2}, ${cyCell - 16})` });
+  const bridgeBadge = createSVGElement('g', { transform: `translate(${(cxEnc + cxDec) / 2}, ${cyCell - 16})` });
   bridgeBadge.innerHTML = `
     <rect x="-60" y="-12" width="120" height="24" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.2"/>
     <text x="0" y="4" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#B45309">
@@ -919,9 +919,9 @@ function renderRolledEncoderDecoder(svg, step, example) {
   // 3. ZONA DECODER
   const decCell = createSVGElement('g', { transform: `translate(${cxDec}, ${cyCell})` });
   decCell.innerHTML = `
-    <rect x="-${cellW/2}" y="-${cellH/2}" width="${cellW}" height="${cellH}" rx="12" fill="#FFFFFF" stroke="${!isEncPhase ? '#2E7D63' : '#DDE0EA'}" stroke-width="${!isEncPhase ? '2.5' : '1.5'}" ${!isEncPhase ? 'filter="drop-shadow(0 2px 8px rgba(46,125,99,0.15))"' : ''}/>
-    <rect x="-${cellW/2}" y="-${cellH/2}" width="${cellW}" height="24" rx="12" fill="${!isEncPhase ? '#EBF7F2' : '#F5F6F9'}"/>
-    <text x="0" y="-${cellH/2 - 16}" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="${!isEncPhase ? '#2E7D63' : '#6B7080'}">
+    <rect x="-${cellW / 2}" y="-${cellH / 2}" width="${cellW}" height="${cellH}" rx="12" fill="#FFFFFF" stroke="${!isEncPhase ? '#2E7D63' : '#DDE0EA'}" stroke-width="${!isEncPhase ? '2.5' : '1.5'}" ${!isEncPhase ? 'filter="drop-shadow(0 2px 8px rgba(46,125,99,0.15))"' : ''}/>
+    <rect x="-${cellW / 2}" y="-${cellH / 2}" width="${cellW}" height="24" rx="12" fill="${!isEncPhase ? '#EBF7F2' : '#F5F6F9'}"/>
+    <text x="0" y="-${cellH / 2 - 16}" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="${!isEncPhase ? '#2E7D63' : '#6B7080'}">
       DECODER (st)
     </text>
     <text x="0" y="10" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="500" fill="#6B7080">
@@ -935,7 +935,7 @@ function renderRolledEncoderDecoder(svg, step, example) {
 
   const decLoop = createSVGElement('path', {
     id: 'dec-loop-path',
-    d: `M ${cxDec + cellW/2} ${cyCell} C ${cxDec + cellW/2 + 50} ${cyCell - 10}, ${cxDec + cellW/2 + 50} ${cyCell - 65}, ${cxDec + 25} ${cyCell - cellH/2}`,
+    d: `M ${cxDec + cellW / 2} ${cyCell} C ${cxDec + cellW / 2 + 50} ${cyCell - 10}, ${cxDec + cellW / 2 + 50} ${cyCell - 65}, ${cxDec + 25} ${cyCell - cellH / 2}`,
     fill: 'none',
     stroke: !isEncPhase ? '#2E7D63' : '#DDE0EA',
     'stroke-width': '2',
@@ -945,7 +945,7 @@ function renderRolledEncoderDecoder(svg, step, example) {
 
   const decInputWire = createSVGElement('path', {
     id: 'dec-input-wire',
-    d: `M ${cxDec} ${cyInput - 22} L ${cxDec} ${cyCell + cellH/2}`,
+    d: `M ${cxDec} ${cyInput - 22} L ${cxDec} ${cyCell + cellH / 2}`,
     fill: 'none',
     stroke: !isEncPhase ? '#2E7D63' : '#DDE0EA',
     'stroke-width': '2',
@@ -963,7 +963,7 @@ function renderRolledEncoderDecoder(svg, step, example) {
 
   const decOutputWire = createSVGElement('path', {
     id: 'dec-output-wire',
-    d: `M ${cxDec} ${cyCell - cellH/2} L ${cxDec} ${cyOutput + 22}`,
+    d: `M ${cxDec} ${cyCell - cellH / 2} L ${cxDec} ${cyOutput + 22}`,
     fill: 'none',
     stroke: (!isEncPhase && step.y) ? '#2E7D63' : '#DDE0EA',
     'stroke-width': '2',
@@ -1078,7 +1078,7 @@ function renderUnrolledSVG(activeStep, example) {
     const decWidth = decStepsCount * stepWidth + 20;
 
     // Badge comparador de longitudes distintas
-    const diffBadge = createSVGElement('g', { transform: `translate(${(encStart + decStart + decWidth)/2}, 24)` });
+    const diffBadge = createSVGElement('g', { transform: `translate(${(encStart + decStart + decWidth) / 2}, 24)` });
     diffBadge.innerHTML = `
       <rect x="-140" y="-12" width="280" height="24" rx="12" fill="#FFFFFF" stroke="#DDE0EA" stroke-width="1.2"/>
       <text x="0" y="4" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#1F2330">
@@ -1110,8 +1110,8 @@ function renderUnrolledSVG(activeStep, example) {
 
   // 2. Conexiones horizontales entre celdas recurrentes (h_{t-1} -> h_t)
   for (let i = 0; i < totalSteps - 1; i++) {
-    const x1 = marginX + i * stepWidth + cellW/2;
-    const x2 = marginX + (i + 1) * stepWidth - cellW/2;
+    const x1 = marginX + i * stepWidth + cellW / 2;
+    const x2 = marginX + (i + 1) * stepWidth - cellW / 2;
     const isTrans = (isEncoderDecoder && i === example.inputLength - 1);
 
     const wire = createSVGElement('path', {
@@ -1125,7 +1125,7 @@ function renderUnrolledSVG(activeStep, example) {
     g.appendChild(wire);
 
     if (isTrans) {
-      const transBadge = createSVGElement('g', { transform: `translate(${(x1 + x2)/2}, ${cyCell - 16})` });
+      const transBadge = createSVGElement('g', { transform: `translate(${(x1 + x2) / 2}, ${cyCell - 16})` });
       transBadge.innerHTML = `
         <rect x="-48" y="-10" width="96" height="20" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
         <text x="0" y="4" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="#B45309">
@@ -1170,7 +1170,7 @@ function renderUnrolledSVG(activeStep, example) {
 
     // Flecha Entrada -> Celda (x_t -> h_t)
     const inWire = createSVGElement('path', {
-      d: `M ${cx} ${cyInput - 20} L ${cx} ${cyCell + cellH/2}`,
+      d: `M ${cx} ${cyInput - 20} L ${cx} ${cyCell + cellH / 2}`,
       fill: 'none',
       stroke: isActive ? '#5266EB' : (isPast ? '#4FA39B' : '#CCD1DE'),
       'stroke-width': isActive ? '2.5' : '1.5',
@@ -1182,7 +1182,7 @@ function renderUnrolledSVG(activeStep, example) {
     const hasOut = (st.y !== null && st.y !== '(Sin salida)' && st.y !== '(Vector de Contexto)');
     if (hasOut || appState.activeType === 'many-to-one') {
       const outWire = createSVGElement('path', {
-        d: `M ${cx} ${cyCell - cellH/2} L ${cx} ${cyOutput + 20}`,
+        d: `M ${cx} ${cyCell - cellH / 2} L ${cx} ${cyOutput + 20}`,
         fill: 'none',
         stroke: (isActive && hasOut) ? '#5266EB' : (hasOut && isPast ? '#4FA39B' : '#E2E5EB'),
         'stroke-width': (isActive && hasOut) ? '2.5' : '1.5',
@@ -1220,8 +1220,8 @@ function renderUnrolledSVG(activeStep, example) {
 
     const cellNode = createSVGElement('g', { transform: `translate(${cx}, ${cyCell})` });
     cellNode.innerHTML = `
-      <rect x="-${cellW/2}" y="-${cellH/2}" width="${cellW}" height="${cellH}" rx="10" fill="${cellBgFill}" stroke="${cellStroke}" stroke-width="${isActive ? '2.5' : '1.8'}" ${isActive ? 'filter="drop-shadow(0 2px 10px rgba(82,102,235,0.25))"' : ''}/>
-      <text x="0" y="-${cellH/2 - 15}" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="${cellStroke}">
+      <rect x="-${cellW / 2}" y="-${cellH / 2}" width="${cellW}" height="${cellH}" rx="10" fill="${cellBgFill}" stroke="${cellStroke}" stroke-width="${isActive ? '2.5' : '1.8'}" ${isActive ? 'filter="drop-shadow(0 2px 10px rgba(82,102,235,0.25))"' : ''}/>
+      <text x="0" y="-${cellH / 2 - 15}" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="${cellStroke}">
         h${st.t}
       </text>
       <!-- 4 mini barras con valores del vector -->
@@ -1373,7 +1373,7 @@ function animateRolledPulses(progress) {
       pulseLoop.setAttribute('cx', pt.x);
       pulseLoop.setAttribute('cy', pt.y);
       pulseLoop.setAttribute('opacity', Math.sin(progress * Math.PI));
-    } catch (e) {}
+    } catch (e) { }
   }
 
   // 3. Celda -> Salida
@@ -1398,7 +1398,7 @@ function animateRolledPulses(progress) {
       pulseFb.setAttribute('cx', pt.x);
       pulseFb.setAttribute('cy', pt.y);
       pulseFb.setAttribute('opacity', Math.sin(progress * Math.PI));
-    } catch (e) {}
+    } catch (e) { }
   }
 
   // 5. Pulsos Encoder / Decoder
